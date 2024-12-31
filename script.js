@@ -1,18 +1,3 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-import { getFirestore, doc, getDoc, setDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
-
-const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_AUTH_DOMAIN",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_STORAGE_BUCKET",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
 const countdownElement = document.getElementById('countdown');
 const messageElement = document.getElementById('message');
 const newYearMessageElement = document.getElementById('new-year-message');
@@ -127,22 +112,11 @@ restartButton.addEventListener('click', () => {
     location.reload();
 });
 
-async function updateVisitorCount() {
-    const visitorDoc = doc(db, "stats", "visitorCount");
-    const visitorSnapshot = await getDoc(visitorDoc);
-
-    if (visitorSnapshot.exists()) {
-        await updateDoc(visitorDoc, {
-            count: increment(1)
-        });
-        const updatedSnapshot = await getDoc(visitorDoc);
-        visitorCountElement.textContent = updatedSnapshot.data().count;
-    } else {
-        await setDoc(visitorDoc, {
-            count: 20000
-        });
-        visitorCountElement.textContent = 20000;
-    }
+function updateVisitorCount() {
+    let visitorCount = localStorage.getItem('visitorCount') || 20000;
+    visitorCount++;
+    localStorage.setItem('visitorCount', visitorCount);
+    visitorCountElement.textContent = visitorCount;
 }
 
 function updateLiveViewers() {
