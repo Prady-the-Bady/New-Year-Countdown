@@ -113,7 +113,7 @@ restartButton.addEventListener('click', () => {
 });
 
 function updateVisitorCount() {
-    let visitorCount = localStorage.getItem('visitorCount') || 20000;
+    let visitorCount = localStorage.getItem('visitorCount') || 252378;
     visitorCount++;
     localStorage.setItem('visitorCount', visitorCount);
     visitorCountElement.textContent = visitorCount;
